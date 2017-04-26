@@ -8,5 +8,10 @@
             "email": "mlamine860@gmail.com"
         }
     ],
+    "autoload":{
+      "psr-4":{
+        "Ramata/Event\\":"src/Event"
+      }
+    },
     "require": {}
 }
