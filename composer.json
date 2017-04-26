@@ -1,0 +1,12 @@
+{
+    "name": "ramata/event",
+    "description": "gestion des events listener et des emiter",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "mamadou lamine diallo",
+            "email": "mlamine860@gmail.com"
+        }
+    ],
+    "require": {}
+}
