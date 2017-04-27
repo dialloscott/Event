@@ -40,5 +40,25 @@ describe(Emitter::class,function(){
 
       });
     });
+  describe('::once',function(){
+     it('should trigger event once', function(){
+         $listener = Double::instance();
+         expect($listener)->toReceive('onNewComment')->once();
+
+         $this->emitter->once('comment.created',[$listener,'onNewComment']);
+         $this->emitter->emit('comment.created');
+     });
+  });
+  describe('::stopPropagation',function(){
+    it('it should stop the next listener',function(){
+      $listener = Double::instance();
+      expect($listener)->toReceive('onNewComment')->once();
+      expect($listener)->not->toReceive('onNewComment2')->once();
+      $this->emitter->once('comment.created',[$listener,'onNewComment'])->stopPropagation();
+      $this->emitter->once('comment.created',[$listener,'onNewComment2']);
+      $this->emitter->emit('comment.created');
+
+    });
+  });
 
 });

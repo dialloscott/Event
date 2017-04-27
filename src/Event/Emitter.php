@@ -21,19 +21,28 @@ class Emitter{
       }
       return self::$_instance;
     }
-    public function on(string $event,callable $callable,$priority = 0)
+    public function on(string $event,callable $callable, int $priority = 0)
     {
        if(!$this->eventExist($event)){
          $this->listener[$event] = [];
        }
-       $this->listener[$event][] = new Listener($callable,$priority);
+       $listener = $this->listener[$event][] = new Listener($callable,$priority);
        $this->sortListener($event);
+       return $listener;
     }
+    public function once($event,callable $callback,int $priority = 0)
+    {
+       return $this->on($event,$callback,$priority)->once();
+    }
+
     public function emit(string $event,...$args)
     {
       if($this->eventExist($event)){
         foreach($this->listener[$event] as $listener){
           $listener->handler($args);
+          if($listener->stopPropagation){
+            break;
+          }
         }
         return $listener;
       }
@@ -48,5 +57,6 @@ class Emitter{
         return $a->priority < $b->priority;
       });
     }
+
 
 }
