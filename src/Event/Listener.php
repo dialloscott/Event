@@ -1,6 +1,6 @@
 <?php
 
-namespace Ramata\event;
+namespace Ramata\Event;
 
 class Listener {
 
@@ -9,5 +9,9 @@ class Listener {
   public function __construct(callable $callback)
   {
     $this->callback = $callback;
+  }
+  public function handler(array $args)
+  {
+    return call_user_func_array($this->callback,$args);
   }
 }

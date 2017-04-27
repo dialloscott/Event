@@ -29,7 +29,12 @@ class Emiter{
     }
     public function emit(string $event,...$args)
     {
-      var_dump($args);
+      if($this->eventExist($event)){
+        foreach($this->listener[$event] as $event){
+          return $event->handler($args);
+        }
+        return $event;
+      }
     }
     private function eventExist($event)
     {
