@@ -2,8 +2,6 @@
 - La premier class emiter {class Emiter}
 ```<?php
 namespace Ramata\Event;
-
-
 class Emiter{
 
     /**

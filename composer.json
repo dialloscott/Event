@@ -13,5 +13,8 @@
         "Ramata\\Event\\":"src/Event"
       }
     },
-    "require": {}
+    "require": {},
+    "require-dev": {
+        "kahlan/kahlan": "^3.1"
+    }
 }

@@ -24,16 +24,17 @@ class Emiter{
     public function on(string $event,callable $callable)
     {
        if(!$this->eventExist($event)){
-          $this->listener[$event][] = new Listener($callable);
+         $this->Listener[$event] =  [];
        }
+       $this->listener[$event][] = new Listener($callable);
     }
     public function emit(string $event,...$args)
     {
       if($this->eventExist($event)){
-        foreach($this->listener[$event] as $event){
-          return $event->handler($args);
+        foreach($this->listener[$event] as $listener){
+          return $listener->handler($args);
         }
-        return $event;
+        return $listener;
       }
     }
     private function eventExist($event)
