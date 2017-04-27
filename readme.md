@@ -1,8 +1,8 @@
 # Creation Des evenement en php
-- La premier class emiter {class Emiter}
+- La premier class emiter {class Emitter}
 ```<?php
 namespace Ramata\Event;
-class Emiter{
+class Emitter{
 
     /**
     *singlton

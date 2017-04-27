@@ -1,5 +1,6 @@
 <?php
 use Ramata\Event\Emitter;
+use Kahlan\Plugin\Double;
 
 describe(Emitter::class,function(){
   beforeEach(function(){
@@ -17,7 +18,17 @@ describe(Emitter::class,function(){
       expect($instance)->toBeAnInstanceOf(Emitter::class);
       expect($instance)->toBe(Emitter::getInstance());
     });
-    describe('on',function(){
+    describe('::on',function(){
+      it('it should trigger event',function(){
+        $listener = Double::instance();
+        $comment = ['name' => 'Lamine'];
+        expect($listener)->toReceive('newComment')->times(3)->with($comment);
+        $this->emitter->on('comment.created',[$listener,'newComment']);
+        $this->emitter->emit('comment.created',$comment);
+        $this->emitter->emit('comment.created',$comment);
+        $this->emitter->emit('comment.created',$comment);
 
+      });
     });
+
 });
