@@ -1,8 +1,8 @@
 <?php
-use Ramata\Event\Emiter;
+use Ramata\Event\Emitter;
 require "vendor/autoload.php";
 
-$emiter = Emiter::getInstance();
+$emiter = Emitter::getInstance();
 $comment = 'lorem';
 $emiter->on('comment.created',function($comment){
   echo $comment;

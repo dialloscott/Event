@@ -1,8 +1,23 @@
 <?php
-use Ramata\Event\Emiter;
-describe('singlton',function(){
-    it('should be the seme instance',function(){
-      $instance = Emiter::getInstance();
-      expect($instance)->toBeAnInstanceOf(Emiter::class);
+use Ramata\Event\Emitter;
+
+describe(Emitter::class,function(){
+  beforeEach(function(){
+      $reflexion = new ReflectionClass(Emitter::getInstance());
+      $property = $reflexion->getProperty('_instance');
+      $property->setAccessible(true);
+      $property->setValue(null,null);
+      $property->setAccessible(false);
+    });
+    given('emitter',function(){
+      return Emitter::getInstance();
+    });
+    it('should be a singlton',function(){
+      $instance = Emitter::getInstance();
+      expect($instance)->toBeAnInstanceOf(Emitter::class);
+      expect($instance)->toBe(Emitter::getInstance());
+    });
+    describe('on',function(){
+
     });
 });

@@ -2,7 +2,7 @@
 namespace Ramata\Event;
 
 
-class Emiter{
+class Emitter{
 
     /**
     *singlton
