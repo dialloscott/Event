@@ -1,7 +1,14 @@
 <?php
 use Ramata\Event\Emitter;
 use Kahlan\Plugin\Double;
-
+use Ramata\Event\Exceptions\DoubleEventException;
+use Ramata\Event\Interfaces\SubscriberInterface;
+class FakeSuscriber implements SubscriberInterface{
+  public function subscribe()
+  {
+    return ['comment.created' => 'newComment'];
+  }
+}
 describe(Emitter::class,function(){
   beforeEach(function(){
       $reflexion = new ReflectionClass(Emitter::getInstance());
@@ -59,6 +66,23 @@ describe(Emitter::class,function(){
       $this->emitter->emit('comment.created');
 
     });
+    it('it should prevent the same event twice',function(){
+      $listener = Double::instance();
+       $closur = function()use ($listener){
+         $this->emitter->on('comment.created',[$listener,'onNewComment']);
+         $this->emitter->on('comment.created',[$listener,'onNewComment']);
+       };
+       expect($closur)->toThrow(new DoubleEventException());
+
+    });
+  });
+  describe(Subscriber::class,function(){
+     it('trigger subscriber event',function(){
+        $subscriber = Double::instance(['extends' => FakeSuscriber::class,'methods' => 'newComment']);
+        expect($subscriber)->toReceive('newComment')->once();
+        $this->emitter->addSubscriber($subscriber);
+        $this->emitter->emit('comment.created');
+     });
   });
 
 });
