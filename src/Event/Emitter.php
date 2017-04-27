@@ -6,7 +6,7 @@ class Emitter{
 
     /**
     *singlton
-    *@var $_intance
+    *@var $_instance
     */
     private static $_instance;
     /**
@@ -21,18 +21,19 @@ class Emitter{
       }
       return self::$_instance;
     }
-    public function on(string $event,callable $callable)
+    public function on(string $event,callable $callable,$priority = 0)
     {
        if(!$this->eventExist($event)){
-         $this->Listener[$event] =  [];
+         $this->listener[$event] = [];
        }
-       $this->listener[$event][] = new Listener($callable);
+       $this->listener[$event][] = new Listener($callable,$priority);
+       $this->sortListener($event);
     }
     public function emit(string $event,...$args)
     {
       if($this->eventExist($event)){
         foreach($this->listener[$event] as $listener){
-          return $listener->handler($args);
+          $listener->handler($args);
         }
         return $listener;
       }
@@ -40,6 +41,12 @@ class Emitter{
     private function eventExist($event)
     {
       return array_key_exists($event,$this->listener);
+    }
+    private function sortlistener($event)
+    {
+      uasort($this->listener[$event],function($a,$b){
+        return $a->priority < $b->priority;
+      });
     }
 
 }

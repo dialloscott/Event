@@ -29,6 +29,16 @@ describe(Emitter::class,function(){
         $this->emitter->emit('comment.created',$comment);
 
       });
+      it('should trigger in right order',function(){
+        $listener = Double::instance();
+        expect($listener)->toReceive('onNewComment')->once()->ordered;
+        expect($listener)->toReceive('onNewComment2')->once()->ordered;
+
+        $this->emitter->on('comment.created',[$listener,'onNewComment2'],1);
+        $this->emitter->on('comment.created',[$listener,'onNewComment'],2000);
+        $this->emitter->emit('comment.created');
+
+      });
     });
 
 });

@@ -6,9 +6,10 @@ class Listener {
 
   public $callback;
 
-  public function __construct(callable $callback)
+  public function __construct(callable $callback,int $priority)
   {
     $this->callback = $callback;
+    $this->priority = $priority;
   }
   public function handler(array $args)
   {

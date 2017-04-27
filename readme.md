@@ -6,7 +6,7 @@ class Emitter{
 
     /**
     *singlton
-    *@var $_intance
+    *@var $_instance
     */
     private static $_instance;
     /**
